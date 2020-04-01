@@ -86,15 +86,15 @@ Screenshots
 -----------
 #### Summary Charts (dark mode)
 <p align="center">
-    <img src="https://raw.githubusercontent.com/ObjectifLibre/ckui/master/screenshots/summary-charts.png"/>
+    <img src="https://raw.githubusercontent.com/ObjectifLibre/catnip/master/screenshots/summary-charts.png"/>
 </p>
 
 #### Rating Modules (light mode)
 <p align="center">
-    <img src="https://raw.githubusercontent.com/ObjectifLibre/ckui/master/screenshots/rating-modules.png"/>
+    <img src="https://raw.githubusercontent.com/ObjectifLibre/catnip/master/screenshots/rating-modules.png"/>
 </p>
 
 #### Hashmap (dark mode)
 <p align="center">
-    <img src="https://raw.githubusercontent.com/ObjectifLibre/ckui/master/screenshots/hashmap.png"/>
+    <img src="https://raw.githubusercontent.com/ObjectifLibre/catnip/master/screenshots/hashmap.png"/>
 </p>
