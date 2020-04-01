@@ -1,0 +1,129 @@
+<template id="navbar">
+    <div>
+        <nav class="uk-navbar-container uk-visible@m" uk-navbar="mode: click" uk-sticky>
+            <div class="uk-navbar-left">
+                <a class="uk-navbar-item uk-logo" href="#">
+                    <img style="width:70px; " data-src="/static/pictures/catnip_logo.png" uk-img>
+                </a>
+                <ul class="uk-navbar-nav">
+                    {% if is_project_admin %}
+                        <li class="catnip-navbar-item">
+                            <a href="#">
+                                <i class="fas fa-chevron-down" style="padding-right:10px"></i>
+                                <i class="fas fa-cog" style="font-size: 22px"></i>
+                            </a>
+                            <div class="catnip-sidebar-dropdown" uk-dropdown="offset: 5; pos: bottom-center; mode: click">
+                               <ul class="uk-nav uk-dropdown-nav catnip-sidebar-dropdown-menu">
+                                   <li class="catnip-menu-header"><a style="padding-left: 15px">Admin</a></li>
+                                   <li class="catnip-menu-item"><router-link to="/dashboard/rating-modules">Modules</router-link></li>
+                                   <li class="catnip-menu-item"><router-link to="/dashboard/hashmap">Hashmap</router-link></li>
+                                   <li class="catnip-menu-item"><router-link to="/dashboard/scope">Scopes</router-link></li>
+                                   <li class="catnip-menu-item"><a href="">PyScripts</a></li>
+                               </ul>
+                            </div>
+                        </li>
+                    {% endif %}
+                    <li class="catnip-navbar-item"><router-link to="/dashboard/summary"><i class="fas fa-th-list" style="font-size: 22px"></i></router-link></li>
+                    <li class="catnip-navbar-item"><router-link to="/dashboard/summary-charts"><i class="fa fa-chart-bar" style="font-size: 22px"></i></router-link></li>
+                </ul>
+            </div>
+            <div class="uk-navbar-center">
+            	<ul class="uk-navbar-nav">
+                    <li><a href="#">${ $route.name }</a></li>
+                </ul>
+            </div>
+            <div class="uk-navbar-right">
+                <ul class="uk-navbar-nav">
+                    <li>
+                        <a href="#" @click="switch_theme"><i :class="icon_mode"></i></a>
+                    </li>
+                    <li class="catnip-navbar-item">
+                        <a v-show="is_pending">
+                            <div uk-spinner></div>
+                        </a>
+                    	<a v-show="!is_pending">
+                        	<i class="fas fa-chevron-down" style="padding-right:10px"></i> ${project_name}
+                        </a>
+                        <div v-show="!is_pending" class="catnip-sidebar-dropdown" uk-dropdown="offset: 5; pos: bottom-center; mode: click">
+            			   <ul class="uk-nav uk-dropdown-nav catnip-sidebar-dropdown-menu">
+                                <li class="catnip-menu-header"><a style="padding-left: 15px">Projects</a></li>
+            			        <li v-for="project_name, project_id in project_list" class="catnip-menu-item" :key="project_id">
+                                    <a @click="switch_project(project_id)">${project_list[project_id]}</a>
+                                </li>
+                                {% if auth_type == 'keystone' %}
+                                    <li class="catnip-menu-item">
+                                        <a @click="switch_project(null)"></i>ALL</a>
+                                    </li>
+                                    <li class="catnip-menu-item">
+                                        <a @click="reload_project_list()"><i class="fas fa-sync-alt" style="padding-right:10px"></i>Reload project list</a>
+                                    </li>
+                                {% else %}
+                                    <li class="catnip-menu-item">
+                                        <a style="padding:10px"><i class="fas fa-times" style="padding-right:10px"></i>no-auth doesn't have access to project list</a>
+                                    </li>
+                                {% endif %}
+                           </ul>
+            			</div>
+                    </li>
+                    <li class="catnip-navbar-item">
+                        <a>
+                        	<i class="fas fa-user" style="padding-right:10px"></i> {{ user_name }}
+                        </a>
+                        <div class="catnip-sidebar-dropdown" uk-dropdown="offset: 5; pos: bottom-center; mode: click">
+                           <ul class="uk-nav uk-dropdown-nav catnip-sidebar-dropdown-menu">
+                               <li class="catnip-menu-item"><a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i> logout </a></li>
+                               <li class="catnip-menu-item"><a href="#"><i class="fa fa-code-branch" style="padding-right:10px"></i>v{{ version }}</a></li>
+                           </ul>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        
+        <nav class="uk-navbar-container uk-hidden@m" uk-navbar="mode: click" uk-sticky>
+            <div class="uk-navbar-left">
+                <ul class="uk-navbar-nav">
+                    <li class="catnip-navbar-item">
+                        <a style="font-size: 22px" uk-toggle="target: #sidebar-nav">
+                            <i class="fas fa-bars"></i>
+                        </a>
+                    </li>
+                </ul>
+                 <a class="uk-navbar-item uk-logo" href="#">
+                    <img style="width:70px; " data-src="/static/pictures/catnip_logo.png" uk-img>
+                </a>
+            </div>
+            <div class="uk-navbar-center">
+                <ul class="uk-navbar-nav">
+                    <li><a href="#">${ $route.name }</a></li>
+                </ul>
+            </div>
+        </nav>
+       
+        <div id="sidebar-nav" class="uk-hidden@m" uk-offcanvas="overlay: false; bg-close: true; mode: push">
+            <div class="uk-offcanvas-bar catnip-sidebar">
+                <ul class="uk-nav uk-nav-default uk-nav-center" style="font-size: 25px; margin-top: 10%">
+                    {% if is_project_admin %}
+                        <li class="catnip-menu-item"><a href="#"><i class="fas fa-cog"></i></a>
+                            <div class="catnip-sidebar-dropdown" uk-dropdown="mode: click; pos: right-top; offset:0">
+                               <ul class="uk-nav uk-dropdown-nav catnip-sidebar-dropdown-menu">
+                                   <li class="catnip-menu-header"><a style="padding-left: 15px">Admin</a></li>
+                                   <li class="catnip-menu-item"><router-link to="/dashboard/rating-modules">Modules</router-link></li>
+                                   <li class="catnip-menu-item"><router-link to="/dashboard/hashmap">Hashmap</router-link></li>
+                                   <li class="catnip-menu-item"><router-link to="/dashboard/scope">Scopes</router-link></li>
+                                   <li class="catnip-menu-item"><a href="">PyScripts</a></li>
+                               </ul>
+                            </div>
+                        </li>
+                    {% endif %}
+                    <li class="catnip-menu-item"><router-link to="/dashboard/summary"><i class="fas fa-th-list"></i></router-link></li>
+                    <li class="catnip-menu-item"><router-link to="/dashboard/summary-charts"><i class="fa fa-chart-bar"></i></router-link></li>
+                </ul>
+                <ul class="uk-nav uk-nav-default uk-position-bottom-center" style="font-size: 20px">
+                    <li><a href="#" @click="switch_theme"><i :class="icon_mode"></i></a></li>
+                    <li><a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</template>

@@ -1,0 +1,133 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>{{ view_name }}</title>
+	<link rel="shortcut icon" href="{% static 'pictures/favicon.ico' %}" type="image/x-icon">
+	<link rel="icon" href="{% static 'pictures/favicon.png' %}" type="image/png">
+	<link rel="icon" sizes="32x32" href="{% static 'pictures/favicon-32.png' %}" type="image/png">
+	<link rel="icon" sizes="64x64" href="{% static 'pictures/favicon-64.png' %}" type="image/png">
+	<link rel="icon" sizes="96x96" href="{% static 'pictures/favicon-96.png' %}" type="image/png">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="Cloudkitty standalone dashboard.">
+	<meta name="keywords" content="catnip, cloudkitty, dashboard, vuejs, django">
+	<meta name="csrf-token" content="{{csrf_token}}">
+	<meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+	<link rel="stylesheet" href="{% static 'css/chartjs/Chart.min.css' %}">
+	<link rel="stylesheet" href="{% static 'css/style.css' %}">
+	<link rel="stylesheet" href="{% static 'css/font-awesome/all.min.css' %}">
+	<link rel="stylesheet" href="{% static 'css/taildatetime/tail.datetime-harx-dark.css' %}">
+	{% if theme == 'dark' %}
+		<link rel="stylesheet" id="catnip-dark-theme" href="{% static 'css/catnip/catnip-dark.css' %}">
+	{% else %}
+		<link rel="stylesheet" id="catnip-light-theme" href="{% static 'css/catnip/catnip-light.css' %}">
+	{% endif %}
+</head>
+
+<body>
+	<!-- Import vendor -->
+	<script src="{% static 'js/vendor/jquery/jquery-3.2.1.slim.min.js' %}"></script>
+	<script src="{% static 'js/vendor/popperjs/popper.min.js' %}"></script>
+	<script src="{% static 'js/vendor/uikit/uikit.js' %}"></script>
+	<script src="{% static 'js/vendor/uikit/uikit-icons.js' %}"></script>
+	<script src="{% static 'js/vendor/vuejs/vue.js' %}"></script>
+	<script src="{% static 'js/vendor/vuejs/vue-resource@1.3.5.js' %}"></script>
+	<script src="{% static 'js/vendor/vuejs/vue-router.min.js' %}"></script>
+	<script src="{% static 'js/vendor/chartjs/Chart.bundle.min.js' %}"></script>
+	<script src="{% static 'js/vendor/taildatetime/tail.datetime.min.js' %}"></script>
+
+	<!-- Import global components -->
+	<script src="{% static 'js/format-data.js' %}"></script>
+	<script src="{% static 'js/url-manager.js' %}"></script>
+	<script src="{% static 'js/service.js' %}"></script>
+	<script src="{% static 'js/notification.js' %}"></script>
+	<script src="{% static 'js/utils.js' %}"></script>
+
+	<div id="catnip-application">
+		<navbar></navbar>
+		
+		<div class="tm-main uk-section uk-section-default" style="padding:2%">
+			<keep-alive>
+			  	<router-view></router-view>
+			</keep-alive>
+		</div>
+	</div>
+
+	
+	<!-- Import all HTML templates -->
+	
+	<!-- Global navigation bar -->
+	{% include "components/navbar.html" %}
+	
+	<!-- Views -->
+	{% include "components/summary.html" %}
+	{% include "components/summary-charts.html" %}
+	{% include "components/rating-modules.html" %}
+	{% include "components/scope.html" %}
+	{% include "components/hashmap/hashmap.html" %}
+
+	<!-- Filtering components -->
+	{% include "components/filter.html" %}
+
+	
+	<!-- Catnip vuejs application -->
+	<script type="module">
+		import Hashmap from "{% static './vue/components/hashmap/hashmap.js' %}"
+		import RatingModules from "{% static './vue/components/rating-modules/rating-modules.js' %}"
+		import Summary from "{% static './vue/components/summary/summary.js' %}"
+		import Navbar from "{% static './vue/components/navbar/navbar.js' %}"
+		import Scope from "{% static './vue/components/scope/scope.js' %}"
+		import SummaryCharts from "{% static './vue/components/summary/summary-charts.js' %}"
+	
+		const GLOBAL_API_VERSION = parseInt('{{ api_version }}')
+
+		let router = new VueRouter({
+		  	mode: 'history',
+		  	routes: [		    
+		      	{ 
+		      		path: '/dashboard/summary',
+		      		component: Summary.Main,
+		      		name: 'summary',
+		      		props: { api_version: GLOBAL_API_VERSION },
+		      	},
+		  		{ 
+		  			path: '/dashboard/summary-charts',
+		  			component: SummaryCharts.Main,
+		  			name: 'summary charts',
+		  			props: { api_version: GLOBAL_API_VERSION },
+		  		},
+		  		{ 
+		  			path: '/dashboard/rating-modules',
+		  			component: RatingModules.Main,
+		  			name: 'rating modules',
+		  			props: { api_version: GLOBAL_API_VERSION },
+		  		},
+		  		{ 
+		  			path: '/dashboard/hashmap',
+		  			component: Hashmap.Main,
+		  			name: 'hashmap',
+		  			props: { api_version: GLOBAL_API_VERSION },
+		  		},
+		  		{
+		  			path: '/dashboard/scope',
+		  			component: Scope.Main,
+		  			name: 'scope',
+		  			props: { api_version: GLOBAL_API_VERSION },
+		  		}
+		  	]
+		})
+
+		new Vue({
+			router,
+			components: {
+		    	'navbar': Navbar
+		    },
+			el:'#catnip-application'
+		})
+	</script>
+</body>
+</html>

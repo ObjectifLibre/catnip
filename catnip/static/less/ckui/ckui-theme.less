@@ -1,0 +1,144 @@
+@import "../uikit.theme.less";
+
+@offcanvas-bar-width: 60px;
+@offcanvas-bar-width-m: 60px;
+
+.background-gradient {
+    background: @global-gradient-color
+}
+
+.ck-sidebar {
+    position: fixed;
+    bottom: 0;
+    top: 0;
+    box-sizing: border-box;
+    width: 60px !important;
+    padding: 10px 0px 10px 0px;
+    height:auto;
+    overflow: visible;
+}
+
+.ck-navbar-item {
+    border-width: 5px;
+    border-style: solid;
+    border-color: rgba(0,0,0,0);
+    border-left: 0px;
+    border-top: 0px;
+    border-right: 0px;
+}
+
+.ck-navbar-item:hover {
+    border-color: @global-primary-background;
+}
+
+.ck-menu-item {
+    border-width: 5px;
+    border-style: solid;
+    border-color: rgba(0,0,0,0);
+    border-top: 0px;
+    border-bottom: 0px;
+    border-right: 0px;
+}
+
+.ck-menu-item:hover {
+    background: @global-ck-ui-background-hover;
+    border-color: @global-primary-background;
+}
+
+.ck-menu-header {
+    padding: 5px;
+    vertical-align: middle;
+    height: 38px;
+    font-size: @global-ck-ui-font-size;
+    background-color: @global-ck-ui-background-hover;
+}
+
+.ck-menu-item a:hover,  .ck-menu-item a:focus {
+    color: @global-color;
+}
+
+.ck-sidebar-dropdown {
+    padding:0px;
+    overflow:visible;
+    z-index:10;
+}
+
+.ck-sidebar-dropdown-menu {
+    background: @global-muted-background;
+    text-align:left;
+    box-shadow: 5px 5px 3px rgba(0,0,0,0.4);
+}
+
+.ck-sidebar-dropdown-menu .ck-menu-item a {
+    padding-left:10px;
+}
+
+.ck-section-title {
+    margin:5px;
+    padding: 3px;
+    text-align: left;
+    vertical-align: bottom;
+    font-size: 0.875rem;
+    font-weight: normal;
+    color: @global-muted-color;
+    text-transform: uppercase;
+}
+
+.ck-label {
+    text-transform:none;
+}
+
+.ck-label .detail{
+    background: @global-gradient-color-inverse;
+    padding: 3px;
+}
+
+.ck-table-head thead th{
+    color: @global-color;
+    font-weight: bold;
+}
+
+.ck-card {
+    position:inherit;
+    background: @global-gradient-color;
+}
+
+.ck-tab-menu, .ck-tab-menu::before, .ck-tab-menu li {
+    position: inherit;
+}
+
+.ck-tab-menu li a {
+    position: inherit;
+    border-bottom: 3px solid @global-gradient-color;
+}
+
+.ck-tab-menu .uk-active a {
+    position: inherit;
+    border-bottom: 3px solid @global-primary-background;
+}
+
+
+/*
+ * Override UIKIT notifications classes
+ */
+
+.uk-notification-message-success {
+    color: @global-ck-ui-notification-success-color;
+    background-color: @global-ck-ui-notification-success-background;
+    border-color: @global-ck-ui-notification-success-border;
+    .hook-notification-message-success;
+}
+
+.uk-notification-message-warning {
+    color:@global-ck-ui-notification-warning-color;
+    background-color:@global-ck-ui-notification-warning-background;
+    border-color:@global-ck-ui-notification-warning-border;
+    .hook-notification-message-warning;
+}
+
+.uk-notification-message-danger {
+    color: @global-ck-ui-notification-danger-color;
+    background-color: @global-ck-ui-notification-danger-background;
+    border-color: @global-ck-ui-notification-danger-border;
+    .hook-notification-message-danger;
+}

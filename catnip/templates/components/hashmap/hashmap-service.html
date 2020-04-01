@@ -1,0 +1,113 @@
+<template id="hashmap-service-table">
+	<div class="uk-overflow-auto">
+		<div v-if="status.loading" class="uk-inline" style="width: 100%; height: 150px">
+			<span class="uk-position-center" uk-spinner="ratio: 3" style="text-align: center"></span>
+		</div>
+		<table v-else class="uk-table uk-table-middle uk-table-divider catnip-table-head">
+			<thead>
+				<tr>
+					<th class="uk-table-shrink"><i @click="status.creating = true" class="fa fa-plus"></i></th>
+					<th class="uk-table-expand">Name</th>
+					<th class="uk-table-shrink">Actions</th>
+				</tr>
+			</thead>
+			<tbody v-if="services.length == 0 && !status.creating">
+				<td colspan="4">No service found.</td>
+			</tbody>
+			<tbody v-if="status.creating">
+				<tr is="hashmap-service-row-creation"
+					v-on:close-creation="status.creating = false"
+					v-on:create-service="create_row($event)">
+				</tr>
+			</tbody>
+			<tbody v-for="service in services" :key="service.service_id">
+				<tr is="hashmap-service-row" 
+					:service="service" 
+					v-on:open-service="open_service($event)" 
+					v-on:delete-service="delete_row($event)">
+				</tr>
+				<tr :ref="service.service_id" is='hashmap-service-card' :service_id="service.service_id"></tr>
+			</tbody>
+		</table>
+	</div>
+</template>
+
+<template id="hashmap-service-row">
+	<tr @mouseover="hover = true" @mouseleave="hover = false"
+		:class="row_class"
+		@click="open_row"
+		:uk-toggle="'target: #toggle-' + service.service_id + '; animation : uk-animation-slide-left'">
+		<td>
+			<a href="" :uk-icon="chevron"></a>
+		</td>	
+		<td class="uk-table-link">
+			<a class="uk-link-reset" href="">${service.name}</a>
+		</td>
+		 <td class="uk-animation-toggle">
+        	<i v-if="hover" class="fa fa-trash" @click="_delete"></i>
+        </td>
+	</tr>
+</template>
+
+<template id="hashmap-service-row-creation">
+	<tr>
+		<td>
+			<i class="fa fa-info" :uk-tooltip="'title: ' + description + '; pos: top'"></i>
+		</td>
+		<td>
+			<input v-model="new_service.name" class="uk-input">
+        </td>
+        <td>
+        	<i @click="_create" class="fa fa-check"></i>
+            <i @click="$emit('close-creation')" class="fa fa-times" style="padding-left: 10px;"></i>
+        </td>
+	</tr>
+</template>
+
+<template id="hashmap-service-card">
+	<tr>
+		<td colspan="6" style="padding: 0 !important;">
+			<div :id="'toggle-' + service_id" hidden>
+				<div class="uk-card uk-card-default catnip-card" style="padding: 20px;">
+					<ul class="uk-child-width-expand catnip-tab-menu" uk-tab>
+						<li @click="current_view = 'field'">
+							<a href=""> Field
+								<span v-if="menu_info.field != -1">(${menu_info.field})</span>
+								<div v-else uk-spinner="ratio: 0.7" style="margin-left: 10px"></div>
+							</a>
+						</li>
+						<li @click="current_view = 'mapping'">
+							<a href=""> Mapping
+								<span v-if="menu_info.mapping != -1">(${menu_info.mapping})</span>
+								<div v-else uk-spinner="ratio: 0.7" style="margin-left: 10px"></div>
+							</a>
+						</li>
+						<li @click="current_view = 'threshold'">
+							<a href=""> Threshold
+								<span v-if="menu_info.threshold != -1">(${menu_info.threshold})</span>
+								<div v-else uk-spinner="ratio: 0.7" style="margin-left: 10px"></div>
+							</a>
+						</li>
+			   		</ul>
+					<div>
+						<hashmap-field-table v-show="current_view == 'field'"
+											:ref="service_id + 'field'"
+											:service_id="service_id"
+											v-on:update-menu-info="update_menu_info($event)">
+						</hashmap-field-table>
+						<hashmap-mapping-table v-show="current_view == 'mapping'"
+												:ref="service_id + 'mapping'"
+												:service_id="service_id"
+												v-on:update-menu-info="update_menu_info($event)">
+						</hashmap-mapping-table>
+						<hashmap-threshold-table v-show="current_view == 'threshold'"
+												:ref="service_id + 'threshold'"
+												:service_id="service_id"
+												v-on:update-menu-info="update_menu_info($event)">
+						</hashmap-threshold-table>
+					</div>
+				</div>
+			</div>
+		</td>
+	</tr>
+</template>

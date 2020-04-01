@@ -1,0 +1,85 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title> Catnip {{ view_name }}</title>
+
+	<link rel="shortcut icon" href="{% static 'pictures/favicon.ico' %}" type="image/x-icon">		
+	<link rel="icon" sizes="32x32" href="{% static 'pictures/favicon-32x32.png' %}" type="image/png">
+	<link rel="icon" sizes="64x64" href="{% static 'pictures/favicon-64x64.png' %}" type="image/png">
+	<link rel="icon" sizes="96x96" href="{% static 'pictures/favicon-96x96.png' %}" type="image/png">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="A simple crud app made with the vue js and django">
+	<meta name="keywords" content="vuejs, django">
+	<meta name="csrf-token" content="{{csrf_token}}">
+	<meta http-equiv="content-type" content="text/html; charset=utf-8">
+	{% if theme == 'dark' %}
+		<link rel="stylesheet" id="catnip-dark-theme" href="{% static 'css/catnip/catnip-dark.css' %}">
+	{% else %}
+		<link rel="stylesheet" id="catnip-light-theme" href="{% static 'css/catnip/catnip-light.css' %}">
+	{% endif %}
+	<script src="{% static 'js/vendor/uikit/uikit.js' %}"></script>
+	<script src="{% static 'js/vendor/uikit/uikit-icons.js' %}"></script>
+</head>
+
+<body style="height:100vh">
+	<div class="uk-flex uk-flex-center uk-flex-middle" style="height:100%">
+		<div class="uk-card uk-card-default uk-card-body">
+			<div class="uk-card-header">
+    		    <div class="uk-grid-small uk-flex-middle" uk-grid>
+    		        <div style="display: block; margin: auto;">
+    		    		<img data-src="{% static 'pictures/catnip_logo.png' %}" width=140 height="140" uk-img>
+    		        </div>
+    		    </div>
+    		</div>
+			<div class="uk-card-body">
+				<form action="{% url 'login' %}?next={{next_url}}" method="post">
+					{% csrf_token %}
+					{% if auth_type == 'keystone' %}
+						<div class="uk-margin">
+					       <div class="uk-inline">
+					       	<span class="uk-form-icon uk-form-icon-flip" uk-icon="icon: world"></span>
+					       	<input id="domain" class="uk-input" placeholder="Domain" name="domain" type="text" value="{{ domain }}" maxlength="250" required>
+					       </div>
+					   	</div>
+						<div class="uk-margin">
+					       <div class="uk-inline">
+					       	<span class="uk-form-icon uk-form-icon-flip" uk-icon="icon: user"></span>
+					       	<input id="username" class="uk-input" placeholder="Username" name="username" type="text" value="{{ name }}" maxlength="250" required>
+					       </div>
+					   </div>
+					   <div class="uk-margin">
+						    <div class="uk-inline">
+						        <span class="uk-form-icon uk-form-icon-flip" uk-icon="icon: lock"></span>
+						        <input id="password" class="uk-input" placeholder="Password" name="password" type="password" value="{{ pass }}" maxlength="250" required>
+						    </div>
+					   	</div>
+						<div class="uk-margin">
+							<button class="uk-button uk-button-primary uk-width-1-1" type="submit">Log In</button>
+						</div>
+					{% else %}	
+						<div class="uk-margin">
+							<button class="uk-button uk-button-primary uk-width-1-1" type="submit">Go to dashboard</button>
+						</div>
+				    {% endif %}
+				</form>
+			</div>
+		</div>
+	</div>
+	{% if error %}
+		<script  type="module">
+			var error_message = '{{ error }}'
+			if (error_message) {
+			 	UIkit.notification({
+			 	    message: error_message,
+			 	    status: 'danger',
+			 	    pos: 'top-right',
+			 	    timeout: 10000
+			 	});
+			}
+		</script>
+	{% endif %}
+</body>

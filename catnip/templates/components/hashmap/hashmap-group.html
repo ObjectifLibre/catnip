@@ -1,0 +1,56 @@
+
+<template id="hashmap-group-table">
+	<div class="uk-overflow-auto">
+		<div v-if="status.loading" class="uk-inline" style="width: 100%; height: 150px">
+			<span class="uk-position-center" uk-spinner="ratio: 3" style="text-align: center"></span>
+		</div>
+		<table v-else class="uk-table uk-table-middle uk-table-divider" >
+			<thead>
+				<tr>
+					<th class="uk-table-shrink"><i @click="status.creating = true" class="fa fa-plus"></i></th>
+					<th class="uk-width-1-2">Name</th>
+					<th class="uk-width-1-2">UUID</th>
+					<th class="uk-table-shrink">Actions</th>
+				</tr>
+			</thead>
+			<tbody v-if="groups.length == 0 && !status.creating">
+				<td colspan="4">No group found.</td>
+			</tbody>
+			<tbody v-if="status.creating">
+				<tr is="hashmap-group-row-creation" 
+					v-on:close-creation="status.creating = false"
+					v-on:create-group="create_row($event)">
+				</tr>
+			</tbody>
+			<tbody v-for="group in groups" :key="group.group_id">
+				<tr is="hashmap-group-row"
+					:group="group"
+					v-on:delete-group="delete_row($event)">
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</template>
+
+<template id="hashmap-group-row">
+	<tr @mouseover="hover = true" @mouseleave="hover = false">
+		<td></td>	
+		<td>${group.name}</td>
+		<td>${group.group_id}</td>
+		<td><i v-if="hover" class="fa fa-trash" @click="_delete"></i></td>
+	</tr>
+</template>
+
+<template id="hashmap-group-row-creation">
+	<tr>
+		<td><i class="fa fa-info" :uk-tooltip="'title: ' + description + '; pos: top'"></i></td>
+		<td>
+			<input v-model="new_group.name" class="uk-input" type="text" placeholder="Group name">
+        </td>
+        <td></td>
+        <td>
+        	<i @click="_create" class="fa fa-check"></i>
+            <i @click="$emit('cancel-creation')" class="fa fa-times" style="padding-left: 10px"></i>
+        </td>
+	</tr>
+</template>

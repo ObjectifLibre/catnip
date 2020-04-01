@@ -1,0 +1,11 @@
+recursive-include dashboard *.py
+recursive-include catnip *.py *.rst *.css *.js *.html *.conf *.jpg *.gif *.png
+
+include AUTHORS
+include ChangeLog
+include LICENSE
+include manage.py
+include README.rst
+include tox.ini
+include requirements.txt
+include test-requirements.txt

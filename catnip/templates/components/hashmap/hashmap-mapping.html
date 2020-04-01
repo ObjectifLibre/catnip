@@ -1,0 +1,87 @@
+<template id="hashmap-mapping-table">
+	<div class="uk-overflow-auto">
+		<div v-if="status.loading" class="uk-inline" style="width: 100%; height: 150px">
+			<span class="uk-position-center" uk-spinner="ratio: 3" style="text-align: center"></span>
+		</div>
+		<table v-else class="uk-table uk-table-middle uk-table-divider">
+			<thead>
+				<!-- According to which module (service or field) the list of mappings belongs to, the head of table will be different -->
+				<tr v-if="field_id">
+					<th class="uk-table-shrink"><i @click="status.creating = true" class="fa fa-plus"></i></th>
+					<th class="uk-width-1-6">Type</th>
+					<th class="uk-width-1-6">Cost</th>
+					<th class="uk-width-1-4">Group Name</th>
+					<th class="uk-width-1-4">Project</th>
+					<th  class="uk-width-1-4">Value</th>
+					<th class="uk-table-shrink">Actions</th>
+				</tr>
+				<tr v-else>
+					<th class="uk-table-shrink"><i @click="status.creating = true" class="fa fa-plus"></i></th>
+					<th class="uk-width-1-6">Type</th>
+					<th class="uk-width-1-6">Cost</th>
+					<th class="uk-width-1-3">Group Name</th>
+					<th class="uk-width-1-3">Project</th>
+					<th class="uk-table-shrink">Actions</th>
+				</tr>
+			</thead>
+			<tbody v-if="mappings.length == 0 && !status.creating">
+				<td colspan="6">No mapping found.</p></td>
+			</tbody>
+			<tbody v-if="status.creating">
+				<tr is="hashmap-mapping-row-creation" 
+					:service_id="service_id" 
+					:field_id="field_id" 
+					v-on:close-creation="status.creating = false"
+					v-on:create-mapping="create_row($event)">
+				</tr>
+			</tbody>
+			<tbody>
+				<tr is="hashmap-mapping-row" 
+					v-for="mapping in mappings" 
+					v-bind:key="mapping.mapping_id" 
+					:mapping="mapping"
+					v-on:delete-mapping="delete_row($event)"></tr>
+			</tbody>
+		</table>
+	</div>
+</template>
+
+<template id="hashmap-mapping-row">
+	<tr @mouseover="hover = true" @mouseleave="hover = false">
+		<td></td>
+		<td>${mapping.type}</td>
+		<td>${mapping.cost}</td>
+		<td>${mapping.group_id}</td>
+		<td>${mapping.tenant_id}</td>
+		<td v-if="mapping.value">${mapping.value}</th>
+		<td><i v-if="hover" class="fa fa-trash" @click="_delete"></i></td>
+	</tr>
+</template>
+
+<template id="hashmap-mapping-row-creation">
+	<tr>
+		<td><i class="fa fa-info" :uk-tooltip="'title: ' + description + '; pos: top'"></i></td>
+		<td>
+			<select v-model="new_mapping.type" class="uk-select">
+                <option value="flat">Flat</option>
+                <option value="rate">Rate</option>
+            </select>
+        </td>
+		<td>
+			<input v-model="new_mapping.cost" class="uk-input" type="number" placeholder="Cost">
+        </td>
+        <td>
+			<input v-model="new_mapping.group_id" class="uk-input" type="text" placeholder="Group">
+        </td>
+        <td>
+			<input v-model="new_mapping.tenant_id" class="uk-input" type="text" placeholder="Project">
+        </td>
+        <td v-if="field_id">
+			<input v-model="new_mapping.value" class="uk-input" type="text" placeholder="Value">
+        </td>
+        <td>
+        	<i @click="_create" class="fa fa-check"></i>
+            <i @click="$emit('close-creation')" class="fa fa-times" style="padding-left: 10px;"></i>
+        </td>
+	</tr>
+</template>

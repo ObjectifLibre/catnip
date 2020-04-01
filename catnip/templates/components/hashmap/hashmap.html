@@ -1,0 +1,34 @@
+
+<template id="hashmap-main">
+    <div class="uk-container uk-container-expand">
+		<div class="background-gradient" style="padding: 20px;">
+			<ul class="uk-child-width-expand catnip-tab-menu" uk-tab>
+				<li @click="current_view = 'service'">
+					<a>Services
+						<span v-if="menu_info.service != -1">(${menu_info.service})</span>
+						<div v-else uk-spinner="ratio: 0.7" style="margin-left: 10px"></div>
+					</a>
+				</li>
+				<li @click="current_view = 'group'">
+					<a>Groups
+						<span v-if="menu_info.group != -1">(${menu_info.group})</span>
+						<div v-else uk-spinner="ratio: 0.7" style="margin-left: 10px"></div>
+					</a>
+				</li>
+			</ul>
+			<hashmap-service-table v-show="current_view == 'service'"
+									v-on:update-menu-info="update_menu_info($event)">
+			</hashmap-service-table>
+			<hashmap-group-table v-show="current_view == 'group'"
+								v-on:update-menu-info="update_menu_info($event)">
+			</hashmap-group-table>
+		</div>
+	</div>
+</template>
+
+{% include "components/hashmap/hashmap-group.html" %}
+{% include "components/hashmap/hashmap-service.html" %}
+{% include "components/hashmap/hashmap-field.html" %}
+{% include "components/hashmap/hashmap-mapping.html" %}
+{% include "components/hashmap/hashmap-threshold.html" %}
+

@@ -1,0 +1,4 @@
+django>=2.1
+python-cloudkittyclient>=3.1.0,<4.0
+python-keystoneclient>=3.22.0,<4.0
+gunicorn

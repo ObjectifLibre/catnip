@@ -1,0 +1,64 @@
+
+<template id="scope-main">
+	<div class="uk-container uk-container-expand">
+		<div v-if="api_version < 2" class="uk-width-expands@l">
+			<div class="uk-card uk-card-default uk-card-body catnip-card" style="padding:10px; overflow: hidden;">
+				${ $route.name } view needs v2 Cloudkitty API version to work correctly.</br>
+				Version used : ${ api_version }
+			</div>
+		</div>
+		<div v-if="api_version >= 2">
+			<!-- SCOPE FILTERS -->
+			<div>
+				<div class=" uk-child-width-expand@m" uk-grid>
+					<filter-array :name="'fetcher'" :filters="url_params.fetcher" v-on:update-filter="update_scope($event)"></filter-array>
+					<filter-array :name="'collector'" :filters="url_params.collector" v-on:update-filter="update_scope($event)"></filter-array>
+					<filter-array :name="'scope_id'" :filters="url_params.scope_id" v-on:update-filter="update_scope($event)"></filter-array>
+					<filter-array :name="'scope_key'" :filters="url_params.scope_key" v-on:update-filter="update_scope($event)"></filter-array>
+				</div>
+			</div>
+
+			<!-- SCOPE LIST -->
+			<div class="uk-margin-medium-top background-gradient" style="padding: 20px;">
+				<scope-table :is_loading="scope_loading" :scopes="scopes"></scope-table>
+			</div>
+		</div>
+	</div>
+</template>
+
+<template id="scope-table">
+	<div class="uk-overflow-auto">
+		<div v-if="is_loading" class="uk-inline" style="width: 100%; height: 150px">
+			<span class="uk-position-center" uk-spinner="ratio: 3" style="text-align: center"></span>
+		</div>
+
+		<div v-else-if="scopes == null">
+			An error occured when getting scopes
+		</div>
+
+		<div v-else-if="scopes.length == 0">
+			No scope found.
+		</div>
+
+		<table v-else class="uk-table uk-table-middle uk-table-divider catnip-table-head">
+			<thead>
+				<tr>
+					<th v-for="name in scopes_header">
+						${name}
+					 </th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr is="scope-table-row" v-for="scope in scopes" v-bind:key="scope.scope_id" :scope="scope"></tr>
+			</tbody>
+		</table>
+	</div>
+</template>
+
+<template id="scope-table-row">
+	<tr>
+		<td v-for="value in scope">
+			${ format_data(value) }
+		</td>
+	</tr>
+</template>

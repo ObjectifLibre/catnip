@@ -1,0 +1,82 @@
+
+<template id="filter-array">
+	<div>
+		<div class="uk-card uk-card-default uk-card-body catnip-card" style="padding:10px; overflow: hidden;">
+			<div class="catnip-section-title"> ${name}
+				<i class="fas fa-plus" style="margin-left: 5px" :href="'#modal-' + id" uk-toggle></i>
+			</div>
+			<span v-for="value in filters" class="uk-label catnip-label" style="margin: 2px; max-width: 90%;overflow: hidden; text-overflow: ellipsis;">
+				<i @click="delete_filter(value)" class="fa fa-times"></i>
+				${value}
+			</span>
+		</div>
+		<div :id="'modal-' + id" uk-modal>
+		    <div class="uk-modal-dialog">
+		        <button class="uk-modal-close-default" type="button" uk-close></button>
+		        <div class="uk-modal-body">
+		        	<h2 class="uk-modal-title">Add ${name}</h2>
+					<input placeholder="Value" :id="id" class="uk-input uk-margin" @keyup.enter="push_filter">
+				</div>
+		        <div class="uk-modal-footer uk-text-right">
+		            <a href="#" class="uk-button uk-button-primary" @click="push_filter">Add</a>
+		        </div>
+		    </div>
+		</div>
+	</div>
+</template>
+
+<template id="filter-object">
+	<div>
+		<div class="uk-card uk-card-default uk-card-body catnip-card" style="padding:10px; overflow: hidden;">
+			<div class="catnip-section-title"> ${name}
+				<i class="fas fa-plus" style="margin-left: 5px" :href="'#modal-' + id" uk-toggle></i>
+			</div>
+			<span v-if="value" v-for="(value, key) in filters" class="uk-label catnip-label" style="margin: 2px; max-width: 90%;overflow: hidden; text-overflow: ellipsis;">
+				<i @click="delete_filter(key)" class="fa fa-times"></i>
+				${key}: ${value}
+			</span>
+		</div>
+		<div :id="'modal-' + id" uk-modal>
+		    <div class="uk-modal-dialog">
+		        <button class="uk-modal-close-default" type="button" uk-close></button>
+		        <div class="uk-modal-body">
+		        	<h2 class="uk-modal-title">Add ${name}</h2>
+					<input placeholder="Key" class="uk-input uk-margin-small-top" :id="'key-' + id">
+					<input placeholder="Value" class="uk-input uk-margin-small-top" :id="'value-' + id" @keyup.enter="push_filter">
+				</div>
+		        <div class="uk-modal-footer uk-text-right">
+		            <a href="#" class="uk-button uk-button-primary" @click="push_filter">Add</a>
+		        </div>
+		    </div>
+		</div>
+	</div>
+</template>
+
+<template id="filter-date">
+	<div>
+		<div class="uk-card uk-card-default uk-card-body catnip-card" style="padding:10px; overflow: hidden;">
+			<div class="catnip-section-title"> ${name} </div>
+			<input :id="name" placeholder="Date" class="uk-input" v-model="date" @click="show_date_picker">
+		</div>
+	</div>
+</template>
+
+<template id="filter-input">
+	<div>
+		<div class="uk-card uk-card-default uk-card-body catnip-card" style="padding:10px; overflow: hidden;">
+			<div class="catnip-section-title"> ${name} </div>
+			<input :placeholder="name" class="uk-input" v-model="filter">
+		</div>
+	</div>
+</template>
+
+<template id="filter-select">
+	<div>
+		<div class="uk-card uk-card-default uk-card-body catnip-card" style="padding:10px; overflow: hidden;">
+			<div class="catnip-section-title"> ${name} </div>
+			<select class="uk-select" v-model="filter">
+           		<option v-for="value in select_possibilities">${value}</option>
+           	</select>
+		</div>
+	</div>
+</template>

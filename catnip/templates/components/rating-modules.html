@@ -1,0 +1,78 @@
+
+<template id="rating-modules-main">
+	<div class="uk-container uk-container-expand">
+		<div class="background-gradient" style="padding: 20px;">
+			<rating-modules-table :rating_modules="rating_modules" :is_loading="rating_modules_loading"></rating-modules-table>
+		</div>
+	</div>
+</template>
+
+<template id="rating-modules-table">
+	<div class="uk-overflow-auto">
+		<div v-if="is_loading" class="uk-inline" style="width: 100%; height: 150px">
+			<span class="uk-position-center" uk-spinner="ratio: 3" style="text-align: center"></span>
+		</div>
+
+		<div v-else-if="rating_modules == null">
+			An error occured when getting rating modules
+		</div>
+
+		<div v-else-if="rating_modules.length == 0">
+			No rating modules found.
+		</div>
+
+		<table v-else class="uk-table uk-table-divider uk-table-middle catnip-table-head">
+			<thead>
+				<tr>
+					<th v-for="(module, name) in get_first_module">${name}</th>
+				</tr>
+			</thead>
+			<tbody v-for="module in rating_modules" v-bind:key="module.module_id">
+				<tr v-if="module['hot-config']" is="rating-modules-row-edit" :module="module"></tr>
+				<tr v-else is="rating-modules-row" :module="module"></tr>
+			</tbody>
+		</table>
+	</div>
+</template>
+
+<template id="rating-modules-row">
+	<tr>
+		<td tabindex="0" v-for="(value, index) in module">
+			<span v-if="index == 'enabled'">
+				<i v-if="value" class="fa fa-check"></i>
+				<i v-else class="fa fa-times"></i>
+			</span>
+			<span v-else>${value}</span>
+		</td>
+	</tr>
+</template>
+
+<template id="rating-modules-row-edit">
+	<tr @mouseover="status.hover = true" @mouseleave="status.hover = false">
+		<td tabindex="0" v-for="(value, index) in module">
+			<span v-if="index == 'priority'">
+				<priority :priority="value" :hover="status.hover" :module_id="module.module_id" v-on:update-priority-property="module.priority = parseInt($event)"></priority>
+			</span>
+			<span v-else-if="index == 'enabled'">
+				<enable-button :enabled="value" :module_id="module.module_id" v-on:update-enabled-property="module.enabled = $event"></enable-button>
+			</span>
+			<span v-else>${value}</span>
+		</td>
+	</tr>
+</template>
+
+<template id="enable-button">
+	<div>
+		<div v-if="pending" uk-spinner></div>
+		<button v-else-if="enabled" @click="update_status(false)" class="uk-button uk-button-danger uk-button-small">Disable</button>
+		<button v-else @click="update_status(true)" class="uk-button uk-button-primary uk-button-small">Enable</button>
+	</div>
+</template>
+
+<template id="priority">
+	<div>
+		<span v-if="!editing">${priority}<a v-if="hover" @click="start_editing" style="padding-left: 10px" class="uk-icon-link" uk-icon="icon: pencil" uk-tooltip="title: Click to edit; pos: right"></a></span>
+		<div v-else-if="pending" uk-spinner></div>
+		<input :id="module_id" v-else class="uk-input uk-form-small uk-form-width-xsmall" type="text" v-model="updated_priority_value" @focusout="update_priority" @keyup.enter="update_priority">
+	</div>
+</template>

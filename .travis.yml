@@ -1,0 +1,31 @@
+dist: bionic
+language: python
+
+services:
+  - docker
+
+addons:
+  apt:
+    update: true
+
+before_install:
+  - sudo apt-get -qy install curl
+
+install:
+  - "pip install 'tox>=2.0'"
+
+jobs:
+  include:
+    - stage: test
+      python: 3.7
+      env: TOXENV=py37
+      script: tox
+
+    - stage: test
+      python: 3.7
+      env: TOXENV=pep8
+      script: tox
+
+    - stage: trigger docker image build
+      script:
+        - "curl -X POST $BUILD_TRIGGER_URL"
