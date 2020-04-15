@@ -27,6 +27,17 @@ Other Information
 
 Catnip uses [cloudkitty api](https://docs.openstack.org/cloudkitty/latest/api-reference/index.html) v2. If you are using v1, lots of features will be blocked.
 
+
+Environment Variables
+---------------------
+
+You need to set the following environment variables to have catnip works as expected:
+
+ - **OS_AUTH_URL**: the url where catnip will try to log in. If the authentication type is _cloudkitty-noauth_, it will be the cloudkitty-api url. Else if it's a _keystone_ authentication, it will be the keystone url.
+ - **OS_RATING_VERSION**: the version of the cloudkitty-api you are using. Must be a string.
+ - **OS_AUTH_TYPE**: the authentication type you are using. Can be _keystone_ or _cloudkitty-noauth_
+
+
 Installation
 ------------
 ###  Git
@@ -45,7 +56,7 @@ Set environment variables
 ```
 export OS_AUTH_URL=<AUTHENTICATION_URL>
 export OS_RATING_API_VERSION=<CLOUDKITTY_API_VERSION>
-export OS_AUTH_TYPE=keystone OR cloudkitty-noauth
+export OS_AUTH_TYPE=<OS_AUTH_TYPE>
 ```
 
 Migrate django models
