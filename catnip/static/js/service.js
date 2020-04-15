@@ -152,7 +152,8 @@ Service.redirection_verification = function(request_url, response_url) {
 	let base_url = window.location.protocol + "//" + window.location.hostname;
 	base_url += (window.location.port) ? (":" + window.location.port) : "";
 	request_url = base_url + request_url;
-	if (request_url != response_url) {
+	// do not redirect if response_url is an API url
+	if (request_url != response_url && response_url.includes(Service.URL_BASE)) {
 		window.location.replace(response_url);
 	}
 };

@@ -1,9 +1,9 @@
 <template id="navbar">
     <div>
-        <nav class="uk-navbar-container uk-visible@m" uk-navbar="mode: click" uk-sticky>
+        <nav class="uk-navbar-container uk-visible@m catnip-navbar" uk-navbar="mode: click" uk-sticky>
             <div class="uk-navbar-left">
                 <a class="uk-navbar-item uk-logo" href="#">
-                    <img style="width:70px; " data-src="/static/pictures/catnip_logo.png" uk-img>
+                    <img style="width:45px; " data-src="/static/pictures/catnip_logo.png" uk-img>
                 </a>
                 <ul class="uk-navbar-nav">
                     {% if is_project_admin %}
@@ -12,9 +12,9 @@
                                 <i class="fas fa-chevron-down" style="padding-right:10px"></i>
                                 <i class="fas fa-cog" style="font-size: 22px"></i>
                             </a>
-                            <div class="catnip-sidebar-dropdown" uk-dropdown="offset: 5; pos: bottom-center; mode: click">
+                            <div class="catnip-sidebar-dropdown" uk-dropdown="offset: 0; pos: bottom-center; mode: click">
                                <ul class="uk-nav uk-dropdown-nav catnip-sidebar-dropdown-menu">
-                                   <li class="catnip-menu-header"><a style="padding-left: 15px">Admin</a></li>
+                                   <li class="catnip-menu-header"><p style="padding-left: 15px">Admin</p></li>
                                    <li class="catnip-menu-item"><router-link to="/dashboard/rating-modules">Modules</router-link></li>
                                    <li class="catnip-menu-item"><router-link to="/dashboard/hashmap">Hashmap</router-link></li>
                                    <li class="catnip-menu-item"><router-link to="/dashboard/scope">Scopes</router-link></li>
@@ -44,9 +44,9 @@
                     	<a v-show="!is_pending">
                         	<i class="fas fa-chevron-down" style="padding-right:10px"></i> ${project_name}
                         </a>
-                        <div v-show="!is_pending" class="catnip-sidebar-dropdown" uk-dropdown="offset: 5; pos: bottom-center; mode: click">
+                        <div v-show="!is_pending" class="catnip-sidebar-dropdown" uk-dropdown="offset: 0; pos: bottom-center; mode: click">
             			   <ul class="uk-nav uk-dropdown-nav catnip-sidebar-dropdown-menu">
-                                <li class="catnip-menu-header"><a style="padding-left: 15px">Projects</a></li>
+                                <li class="catnip-menu-header"><p style="padding-left: 15px">Projects</p></li>
             			        <li v-for="project_name, project_id in project_list" class="catnip-menu-item" :key="project_id">
                                     <a @click="switch_project(project_id)">${project_list[project_id]}</a>
                                 </li>
@@ -69,17 +69,17 @@
                         <a>
                         	<i class="fas fa-user" style="padding-right:10px"></i> {{ user_name }}
                         </a>
-                        <div class="catnip-sidebar-dropdown" uk-dropdown="offset: 5; pos: bottom-center; mode: click">
+                        <div class="catnip-sidebar-dropdown" uk-dropdown="offset: 0; pos: bottom-center; mode: click">
                            <ul class="uk-nav uk-dropdown-nav catnip-sidebar-dropdown-menu">
                                <li class="catnip-menu-item"><a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i> logout </a></li>
-                               <li class="catnip-menu-item"><a href="#"><i class="fa fa-code-branch" style="padding-right:10px"></i>v{{ version }}</a></li>
+                               <li class="catnip-menu-item"><a href="#"><i class="fa fa-code-branch" style="padding-right:10px"></i>{{ version }}</a></li>
                            </ul>
                         </div>
                     </li>
                 </ul>
             </div>
         </nav>
-        
+
         <nav class="uk-navbar-container uk-hidden@m" uk-navbar="mode: click" uk-sticky>
             <div class="uk-navbar-left">
                 <ul class="uk-navbar-nav">
@@ -99,13 +99,13 @@
                 </ul>
             </div>
         </nav>
-       
+
         <div id="sidebar-nav" class="uk-hidden@m" uk-offcanvas="overlay: false; bg-close: true; mode: push">
             <div class="uk-offcanvas-bar catnip-sidebar">
                 <ul class="uk-nav uk-nav-default uk-nav-center" style="font-size: 25px; margin-top: 10%">
                     {% if is_project_admin %}
                         <li class="catnip-menu-item"><a href="#"><i class="fas fa-cog"></i></a>
-                            <div class="catnip-sidebar-dropdown" uk-dropdown="mode: click; pos: right-top; offset:0">
+                            <div class="catnip-sidebar-dropdown" uk-dropdown="mode: click; pos: right-top; offset:0"> 
                                <ul class="uk-nav uk-dropdown-nav catnip-sidebar-dropdown-menu">
                                    <li class="catnip-menu-header"><a style="padding-left: 15px">Admin</a></li>
                                    <li class="catnip-menu-item"><router-link to="/dashboard/rating-modules">Modules</router-link></li>

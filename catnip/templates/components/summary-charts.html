@@ -46,7 +46,7 @@
 			<div v-if="is_loading" class="uk-inline" style="width: 100%; height: 50px">
 				<span class="uk-position-center" uk-spinner="ratio: 1.5" style="text-align: center"></span>
 			</div>
-			<div v-show="!is_loading" id="legend-container"></div>
+			<div v-show="!is_loading" id="legend-container" v-html="html_legend"></div>
 		</div>
 	</div>
 </template>

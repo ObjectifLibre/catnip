@@ -12400,6 +12400,12 @@ iframe.uk-cover {
 }
 .background-gradient {
   background: rgba(0, 0, 0, 0.04);
+  border-radius: 5px;
+  box-shadow: 0 3px 4px rgba(0, 0, 0, 0.07);
+}
+.uk-card-default {
+  border-radius: 5px;
+  box-shadow: 0 3px 4px rgba(0, 0, 0, 0.07);
 }
 .catnip-sidebar {
   position: fixed;
@@ -12410,6 +12416,10 @@ iframe.uk-cover {
   padding: 10px 0px 10px 0px;
   height: auto;
   overflow: visible;
+  box-shadow: 8px 0px 7px -3px rgba(0, 0, 0, 0.07);
+}
+.catnip-navbar {
+  box-shadow: rgba(0, 0, 0, 0.07) 0px 8px 4px -3px;
 }
 .catnip-navbar-item a {
   border-width: 5px;
@@ -12444,9 +12454,9 @@ iframe.uk-cover {
   color: #444;
 }
 .catnip-menu-header {
-  padding: 5px;
+  padding: 5px 10px 5px 5px;
   vertical-align: middle;
-  height: 38px;
+  height: 30px;
   font-size: 18px;
   background-color: #d7d7d7;
 }

@@ -1,6 +1,7 @@
 import json
 import uuid
 import pkg_resources
+import subprocess
 from itertools import islice
 from django.conf import settings
 from django.http import HttpResponse, HttpResponseRedirect
@@ -25,7 +26,23 @@ def get_catnip_backend(request):
 
 
 def version() -> str:
-    return pkg_resources.get_distribution("catnip").version
+    try:
+        return "v" + str(pkg_resources.get_distribution("catnip").version)
+    except Exception as e:
+        # get git version
+        ver = (
+            subprocess.check_output(["git", "describe"])
+            .decode()
+            .strip()
+            .split("-")
+        )
+
+        # Stable
+        if len(ver) == 1:
+            return ver[0]
+
+        major, minor, point = ver[0].split(".")
+        return f"{major}.{minor}.{int(point)+1}-dev{ver[1]}"
 
 
 def get_context_view(request, view_name):
@@ -61,7 +78,9 @@ class LoginView(View):
             raise exceptions.CatnipBadEnvironmentException(
                 "env variable OS_AUTH_TYPE undefined or unknow."
             )
-        if "next" in request.GET:
+        # Due to VueJS router, api urls can appear as next urls
+        # To avoid a redirection on api url, we redirect on LOGIN_REDIRECT_URL
+        if "next" in request.GET and "/api/" not in request.GET["next"]:
             self.next_url = request.GET["next"]
         if request.user.is_authenticated:
             return HttpResponseRedirect(self.next_url)
@@ -73,7 +92,7 @@ class LoginView(View):
     def post(self, request):
         if "?next=" in request.get_full_path():
             url_requested = request.get_full_path().split("?next=")[1]
-            if url_requested:
+            if url_requested and "/api/" not in url_requested:
                 self.next_url = url_requested
         if settings.AUTH_TYPE == "cloudkitty-noauth":
             user_id = uuid.uuid4().hex
@@ -264,7 +283,7 @@ class SummaryAPI(View):
         # groupby time is mandatory in order to get charts' data
         if "groupby" not in params:
             params["groupby"] = "time"
-        else:
+        elif "time" not in params["groupby"]:
             params["groupby"] += ",time"
 
         params["limit"] = 1

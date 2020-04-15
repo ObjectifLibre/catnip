@@ -4,128 +4,57 @@ import Filter from "../filter/filter.js";
 var SummaryCharts = {};
 
 SummaryCharts.BACKGROUND_COLORS = [
-	"hsla(207,80%,70%,0.3)",
-	"hsla(103,80%,70%,0.3)",
-	"hsla(292,80%,70%,0.3)",
-	"hsla(181,80%,70%,0.3)",
-	"hsla(30,80%,70%,0.3)",
-	"hsla(48,80%,70%,0.3)",
-	"hsla(239,80%,70%,0.3)",
-	"hsla(74,80%,70%,0.3)",
-	"hsla(340,80%,70%,0.3)",
-	"hsla(22,80%,70%,0.3)",
-	"hsla(328,80%,70%,0.3)",
-	"hsla(170,80%,70%,0.3)",
-	"hsla(248,80%,70%,0.3)",
-	"hsla(6,80%,70%,0.3)",
-	"hsla(205,80%,70%,0.3)",
-	"hsla(32,80%,70%,0.3)",
-	"hsla(329,80%,70%,0.3)",
-	"hsla(299,80%,70%,0.3)",
-	"hsla(53,80%,70%,0.3)",
-	"hsla(201,80%,70%,0.3)",
-	"hsla(41,80%,70%,0.3)",
-	"hsla(162,80%,70%,0.3)",
-	"hsla(26,80%,70%,0.3)",
-	"hsla(329,80%,70%,0.3)",
-	"hsla(44,80%,70%,0.3)",
-	"hsla(39,80%,70%,0.3)",
-	"hsla(204,80%,70%,0.3)",
-	"hsla(150,80%,70%,0.3)",
-	"hsla(13,80%,70%,0.3)",
-	"hsla(111,80%,70%,0.3)",
-	"hsla(220,80%,70%,0.3)",
-	"hsla(258,80%,70%,0.3)",
-	"hsla(90,80%,70%,0.3)",
-	"hsla(354,80%,70%,0.3)",
-	"hsla(34,80%,70%,0.3)",
-	"hsla(18,80%,70%,0.3)",
-	"hsla(212,80%,70%,0.3)",
-	"hsla(39,80%,70%,0.3)",
-	"hsla(61,80%,70%,0.3)",
-	"hsla(340,80%,70%,0.3)",
-	"hsla(49,80%,70%,0.3)",
-	"hsla(47,80%,70%,0.3)",
-	"hsla(226,80%,70%,0.3)",
-	"hsla(0,80%,70%,0.3)",
-	"hsla(156,80%,70%,0.3)",
-	"hsla(30,80%,70%,0.3)",
-	"hsla(169,80%,70%,0.3)",
-	"hsla(45,80%,70%,0.3)",
-	"hsla(207,80%,70%,0.3)",
-	"hsla(338,80%,70%,0.3)",
-	"hsla(311,80%,70%,0.3)",
-	"hsla(177,80%,70%,0.3)",
-	"hsla(262,80%,70%,0.3)",
-	"hsla(337,80%,70%,0.3)",
-	"hsla(53,80%,70%,0.3)",
-	"hsla(33,80%,70%,0.3)",
-	"hsla(185,80%,70%,0.3)",
-	"hsla(303,80%,70%,0.3)",
-	"hsla(350,80%,70%,0.3)",
+	"hsla(320, 100%, 70%, 0.75)",
+	"hsla(280, 100%, 70%, 0.75)",
+	"hsla(207, 100%, 70%, 0.75)",
+	"hsla(177, 100%, 70%, 0.75)",
+	"hsla(132, 70%, 60%, 0.75)",
+	"hsla(87, 98%, 70%, 0.75)",
+	"hsla(163, 56%, 40%, 0.75)",
+	"hsla(30, 100%, 50%, 0.75)",
+	"hsla(50, 100%, 50%, 0.75)",
+	"hsla(350, 100%, 70%, 0.75)",
+	"hsla(19, 46%, 36%, 0.75)",
+	"hsla(266, 56%, 51%, 0.75)",
+	"hsla(340, 50%, 70%, 0.75)",
+	"hsla(240, 100%, 70%, 0.75)",
+	"hsla(200, 82%, 45%, 0.75)",
+	"hsla(130, 24%, 48%, 0.75)",
+	"hsla(76, 100%, 43%, 0.75)",
+	"hsla(146, 100%, 52%, 0.75)",
+	"hsla(74, 60%, 70%, 0.75)",
+	"hsla(22, 70%, 70%, 0.75)",
+	"hsla(39, 100%, 73%, 0.75)",
+	"hsla(360, 100%, 73%, 0.75)",
+	"hsla(353, 45%, 45%, 0.75)",
+	"hsla(36, 27%, 47%, 0.75)"
 ];
 
 SummaryCharts.BORDER_COLORS = [
-	
-	"hsla(207,80%,70%,1)",
-	"hsla(103,80%,70%,1)",
-	"hsla(292,80%,70%,1)",
-	"hsla(181,80%,70%,1)",
-	"hsla(30,80%,70%,1)",
-	"hsla(48,80%,70%,1)",
-	"hsla(239,80%,70%,1)",
-	"hsla(74,80%,70%,1)",
-	"hsla(340,80%,70%,1)",
-	"hsla(22,80%,70%,1)",
-	"hsla(328,80%,70%,1)",
-	"hsla(170,80%,70%,1)",
-	"hsla(248,80%,70%,1)",
-	"hsla(6,80%,70%,1)",
-	"hsla(205,80%,70%,1)",
-	"hsla(32,80%,70%,1)",
-	"hsla(329,80%,70%,1)",
-	"hsla(299,80%,70%,1)",
-	"hsla(53,80%,70%,1)",
-	"hsla(201,80%,70%,1)",
-	"hsla(41,80%,70%,1)",
-	"hsla(162,80%,70%,1)",
-	"hsla(26,80%,70%,1)",
-	"hsla(329,80%,70%,1)",
-	"hsla(44,80%,70%,1)",
-	"hsla(39,80%,70%,1)",
-	"hsla(204,80%,70%,1)",
-	"hsla(150,80%,70%,1)",
-	"hsla(13,80%,70%,1)",
-	"hsla(111,80%,70%,1)",
-	"hsla(220,80%,70%,1)",
-	"hsla(258,80%,70%,1)",
-	"hsla(90,80%,70%,1)",
-	"hsla(354,80%,70%,1)",
-	"hsla(34,80%,70%,1)",
-	"hsla(18,80%,70%,1)",
-	"hsla(212,80%,70%,1)",
-	"hsla(39,80%,70%,1)",
-	"hsla(61,80%,70%,1)",
-	"hsla(340,80%,70%,1)",
-	"hsla(49,80%,70%,1)",
-	"hsla(47,80%,70%,1)",
-	"hsla(226,80%,70%,1)",
-	"hsla(0,80%,70%,1)",
-	"hsla(156,80%,70%,1)",
-	"hsla(30,80%,70%,1)",
-	"hsla(169,80%,70%,1)",
-	"hsla(45,80%,70%,1)",
-	"hsla(207,80%,70%,1)",
-	"hsla(338,80%,70%,1)",
-	"hsla(311,80%,70%,1)",
-	"hsla(177,80%,70%,1)",
-	"hsla(262,80%,70%,1)",
-	"hsla(337,80%,70%,1)",
-	"hsla(53,80%,70%,1)",
-	"hsla(33,80%,70%,1)",
-	"hsla(185,80%,70%,1)",
-	"hsla(303,80%,70%,1)",
-	"hsla(350,80%,70%,1)",
+	"hsla(320, 100%, 70%, 1)",
+	"hsla(280, 100%, 70%, 1)",
+	"hsla(207, 100%, 70%, 1)",
+	"hsla(177, 100%, 70%, 1)",
+	"hsla(132, 70%, 60%, 1)",
+	"hsla(87, 98%, 70%, 1)",
+	"hsla(163, 56%, 40%, 1)",
+	"hsla(30, 100%, 50%, 1)",
+	"hsla(50, 100%, 50%, 1)",
+	"hsla(350, 100%, 70%, 1)",
+	"hsla(19, 46%, 36%, 1)",
+	"hsla(266, 56%, 51%, 1)",
+	"hsla(340, 50%, 70%, 1)",
+	"hsla(240, 100%, 70%, 1)",
+	"hsla(200, 82%, 45%, 1)",
+	"hsla(130, 24%, 48%, 1)",
+	"hsla(76, 100%, 43%, 1)",
+	"hsla(146, 100%, 52%, 1)",
+	"hsla(74, 60%, 70%, 1)",
+	"hsla(22, 70%, 70%, 1)",
+	"hsla(39, 100%, 73%, 1)",
+	"hsla(360, 100%, 73%, 1)",
+	"hsla(353, 45%, 45%, 1)",
+	"hsla(36, 27%, 47%, 1)"
 ];
 
 SummaryCharts.CostRepartition = {
@@ -175,7 +104,7 @@ SummaryCharts.CostRepartition = {
 			for (let key in computed_data.data) {
 				doughnut_data.push(computed_data.data[key].reduce((p, c) => p + c, 0));
 				doughnut_labels.push(key);
-				doughnut_colors.push(SummaryCharts.BORDER_COLORS[coloridx]);
+				doughnut_colors.push(SummaryCharts.BORDER_COLORS[coloridx % SummaryCharts.BORDER_COLORS.length]);
 				coloridx++;
 			}
 			data.datasets.push({
@@ -225,10 +154,33 @@ SummaryCharts.CostService = {
 			    options: {
 					responsive: true,
 					tooltips: {
-						mode: "x"
+						mode: "x",
+						titleFontSize: 14,
+						bodySpacing: 5,
+						intersect: false,
+						callbacks: {
+							label: function(tooltipItem, data) {
+			                    var label = data.datasets[tooltipItem.datasetIndex].label || '';
+			                    if (label) {
+			                        label += ': ';
+			                    }
+			                    label += Math.round(tooltipItem.yLabel * 100) / 100;
+			                    return label;
+			                },
+			                labelColor: function(tooltipItem, chart) {
+			                    return {
+			                        borderColor: chart.data.datasets[tooltipItem.datasetIndex].borderColor,
+			                        backgroundColor: chart.data.datasets[tooltipItem.datasetIndex].borderColor
+			                    };
+			                },
+			                labelTextColor: function(tooltipItem, chart) {
+			                	return chart.data.datasets[tooltipItem.datasetIndex].borderColor;
+			                }
+			            }
 					},
 					hover: {
 						mode: "x",
+						intersect: false,
 						animationDuration: 0 // duration of animations when hovering an item
 					},
 					scales: {
@@ -282,8 +234,9 @@ SummaryCharts.CostService = {
 			        lineTension : 0,
 			        borderWidth : 2,
 			        pointRadius : 1,
-			        backgroundColor: SummaryCharts.BACKGROUND_COLORS[coloridx],
-			       	borderColor: SummaryCharts.BORDER_COLORS[coloridx],
+			        borderJoinStyle: "bevel",
+			        backgroundColor: SummaryCharts.BACKGROUND_COLORS[coloridx % SummaryCharts.BACKGROUND_COLORS.length],
+			       	borderColor: SummaryCharts.BORDER_COLORS[coloridx % SummaryCharts.BORDER_COLORS.length],
 			        data: data_by_time,
 			        spanGaps:false
 			    });
@@ -336,16 +289,33 @@ SummaryCharts.Legend = {
 			}
 		}
 	},
-	watch : {
-		html_legend : function () {
-			if (this.html_legend.length > 0) {
-				var legendContainer = $("#legend-container")[0];
-				legendContainer.innerHTML = this.html_legend;
-				var legendItems = $("#legend-container ul li");
-				for (var i = 0; i < legendItems.length; i += 1) {
-				 	legendItems[i].addEventListener("click", this.legendClickCallback, false);
+	created: function() {
+		// Legend is html_legend load as v-html
+		// It can be modified out of summary-charts view when user switches project
+		EventBus.$on("init-legend-event", () => {
+			setTimeout(() => {
+				// Legend's html is load in v-html,
+				// we have to wait vuejs to update it before add event listeners on legend elements.
+				if (this.html_legend.length > 0) {
+					var legendContainer = $("#legend-container")[0];
+					if (legendContainer == undefined)
+						return ;
+					var legendItems = $("#legend-container ul li");
+					for (var i = 0; i < legendItems.length; i += 1) {
+					 	legendItems[i].addEventListener("click", this.legendClickCallback, false);
+					}
 				}
+			}, 500)
+		})
+	},
+	watch : {
+		$route: function() {
+			if (this.$route.name == "summary charts") {
+				EventBus.$emit('init-legend-event')
 			}
+		},
+		html_legend : function () {
+			EventBus.$emit('init-legend-event')
 		}
 	}, 
 	template:"#summary-legend",
@@ -368,6 +338,7 @@ SummaryCharts.Main = {
 	},
 	data () {
 		return {
+			"set_up": false,
 			"summary_data" : {},
 			"summary_loading" : false,
 			"url_params" : {
@@ -426,13 +397,17 @@ SummaryCharts.Main = {
 	},
 	created : function () {
   		EventBus.$on("switching-project", (project_id) => {
-  			if (project_id != this.url_params["filters"]["project_id"] || this.url_params["filters"]["project_id"] === undefined) {
-  				URLManager.parse_query_params(this.url_params, this.$route.query);
+  			if (project_id != this.url_params["filters"]["project_id"]) {
 				Vue.set(this.url_params["filters"], "project_id", project_id);
 				this._get();
 	  		}
 		});
-		EventBus.$emit("is-navbar-loaded");
+
+		URLManager.parse_query_params(this.url_params, this.$route.query);
+		// if there is no project_id filter in url_params, we set it to null to get ALL projects
+		if (this.url_params["filters"]["project_id"] === undefined)
+			Vue.set(this.url_params["filters"], "project_id", null);
+		this._get();
 	},
 	delimiters: ["${","}"],
 	template:"#summary-charts",

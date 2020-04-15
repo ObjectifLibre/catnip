@@ -80,6 +80,7 @@ Summary.Main = {
 	},
 	data () {
 		return {
+			"set_up": false,
 			"summary_results": {},
 			"url_params" : {
 				"limit" : Summary.PAGINATION_LIMIT,
@@ -118,13 +119,17 @@ Summary.Main = {
 	created : function () {
 		// listen the project switching
 		EventBus.$on("switching-project", (project_id) => {
-			if (project_id != this.url_params["filters"]["project_id"] || this.url_params["filters"]["project_id"] === undefined) {
-  				URLManager.parse_query_params(this.url_params, this.$route.query);
+			if (project_id != this.url_params["filters"]["project_id"]) {
 				Vue.set(this.url_params["filters"], "project_id", project_id);
 				this._get();
 	  		}
 		});
-		EventBus.$emit("is-navbar-loaded");
+
+		URLManager.parse_query_params(this.url_params, this.$route.query);
+		// if there is no project_id filter in url_params, we set it to null to get ALL projects
+		if (this.url_params["filters"]["project_id"] === undefined)
+			Vue.set(this.url_params["filters"], "project_id", null);
+		this._get();
 	},
 	delimiters: ["${","}"],
 	template:"#summary-main",
