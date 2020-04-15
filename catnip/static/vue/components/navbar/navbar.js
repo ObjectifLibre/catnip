@@ -94,13 +94,6 @@ var Navbar = {
 		if (this.theme != "default" && this.theme != "dark")
 			this.theme = "default";
 
-		EventBus.$on("is-navbar-loaded", () => {
-			// A new component ping the navbar in order to know if the projects are loaded
-			// if true, navbar component will emit the current project id
-			// if not, navbar will emit when project list will be loaded
-			if (this.is_loaded)
-				EventBus.$emit("switching-project", this.current_project_id);
-		})
 		// set url_params 
 		URLManager.parse_query_params(this.url_params, this.$route.query);
 		this._get();
