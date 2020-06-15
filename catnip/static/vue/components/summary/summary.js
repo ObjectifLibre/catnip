@@ -110,7 +110,7 @@ Summary.Main = {
 				this.summary_results = response;
 			}).catch(error => {
 				Notification.error(error)
-				this.summary_results = null;
+				this.summary_results = {};
 			}).finally(() => {
 				this.summary_loading = false;
 			})
